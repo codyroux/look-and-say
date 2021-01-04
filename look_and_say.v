@@ -1,3 +1,20 @@
+(**********************************************************************
+*
+* This file contains a definition of the "look and say" sequence
+* https://en.wikipedia.org/wiki/Look-and-say_sequence
+*
+* Along with a proof that it contains only numbers <= 3 and is decidable.
+*
+* MIT License
+*
+* Copyright (c) 2021 Cody Roux (codyroux), see LICENSE file for details.
+*
+*
+*
+***********************************************************************)
+
+
+
 Require Import List Arith Lia.
 
 Import ListNotations.
@@ -85,7 +102,7 @@ Proof.
   destruct k; simpl; [lia| now auto].
 Qed.
 
-  
+
 Lemma LAS_bounded : forall l l', LookAndSay l l' -> val_and_len_bounded l -> val_and_len_bounded l'.
 Proof.
   intros l l' h.
@@ -180,7 +197,7 @@ Fixpoint get_prefix_tl (l : list nat) (a : nat) : list nat :=
       get_prefix_tl l' a
     else l
   end.
-  
+
 Fixpoint get_prefix_len (l : list nat) (a : nat) : nat :=
   match l with
   | [] => 0
@@ -188,7 +205,7 @@ Fixpoint get_prefix_len (l : list nat) (a : nat) : nat :=
                S (get_prefix_len l' a)
              else 0
   end.
- 
+
 
 Eval compute in (get_prefix_len [1;1;1;1;1;1;1;2;1;1] 1).
 Eval compute in (get_prefix_tl [1;1;1;1;1;1;1;2;1;1] 1).
@@ -309,7 +326,7 @@ Proof.
   rewrite get_prefix_len_repeat; auto.
   rewrite get_prefix_tl_repeat; auto.
 Qed.
-                                              
+
 
 Lemma LAS_cons : forall l l', LookAndSay l l' ->
                               forall gas,
@@ -325,6 +342,3 @@ Proof.
     rewrite look_and_say_repeat; auto.
     erewrite <- IHlas; [eauto | lia ].
 Qed.
-
-
-
